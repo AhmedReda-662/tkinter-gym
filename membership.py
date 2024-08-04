@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
 
-icon_PATH = r"D:\WorkSpace\Project Python\Assets"
+icon_PATH = r"{}\Assets".format(getcwd())
 
 # ========================================================================= #
 # button Actions
