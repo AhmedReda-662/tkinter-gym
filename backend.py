@@ -2,8 +2,8 @@ import sqlite3
 import os
 from tkinter import messagebox
 
-print(os.getcwd())
-PATH = r"D:\WorkSpace\Project Python\gym_db"
+
+PATH = r"{}\gym_db".format(os.getcwd())
 
 # login_database
 def showLoginData():
