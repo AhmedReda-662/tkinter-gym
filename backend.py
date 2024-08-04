@@ -18,6 +18,19 @@ def showLoginData():
     con.close()
     return result
 
+def createUser(fname, username , password):
+    # open_connection
+    con = sqlite3.connect(f"{PATH}\\login.db")
+    cur = con.cursor()
+    # insert data
+    cur.execute("""INSERT
+                INTO
+                users(fullname,username,password)
+                VALUES(?,?,?)
+                """,(fname,username,password))
+    con.commit()
+    con.close()
+# ================================================================== #
 # membership_database
 def addMembership(fname,mname,lname,age,gender,address,sub_plan):
     # open connection
@@ -31,6 +44,7 @@ def addMembership(fname,mname,lname,age,gender,address,sub_plan):
                 """,(fname , mname , lname, age,gender,address,sub_plan))
     con.commit()
     con.close()
+# ================================================================== #
 def showMembership():
     # open connection
     con = sqlite3.connect(f"{PATH}\\membership.db")
