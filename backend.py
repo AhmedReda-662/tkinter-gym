@@ -98,3 +98,24 @@ def searchTrainer(search_item):
     con.close()
     return result
 # ================================================================== #
+# add equipment
+def addEquipment(equipment_name, brand, model, serial_no, quantity, condition, type, status, location, training_required):
+    conn = sqlite3.connect(f'{PATH}\\equipment.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+    INSERT INTO equipment (equipment_name, brand, model, serial_no, quantity, condition, type, status, location, training_required)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ''', (equipment_name, brand, model, serial_no, quantity, condition, type, status, location, training_required))
+
+    conn.commit()
+    conn.close()
+
+# show equipment
+def showEquipment():
+    conn = sqlite3.connect(f'{PATH}\\equipment.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT equipment_name, quantity, type, status, training_required FROM equipment')
+    rows = cursor.fetchall()
+    conn.close()
+
+    return rows
