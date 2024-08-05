@@ -1,27 +1,24 @@
+import customtkinter as ctk
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
-import re 
-import customtkinter as ctk
-from backend import showMembership
-from backend import addMembership
-from backend import searchMembership
+import re
+from backend import showTrainer,addTrainer,searchTrainer
 import os
 
 icon_PATH = r"{}\Assets".format(os.getcwd())
-def open_membership_view_window():
+#create the toplevel frame view trainer
+def open_trainer_view_window():
     root.withdraw()
-    # Open a new Toplevel window instead of re-importing
-    membership_view_window = ctk.CTkToplevel(root)
-    membership_view_window.geometry("1000x600")
-    membership_view_window.title("Membership Window")
-
-    # Create a label
-    label = ctk.CTkLabel(membership_view_window, text="Membership Window", font=("arial", 18, "bold"), text_color="white", bg_color="#333")
-    label.pack(pady=(20, 10))
-
+    # Initialize the main frame 
+    trainer_view_window = ctk.CTkToplevel(root)
+    # Set the size of the frame
+    trainer_view_window.geometry("1000x600")
+    trainer_view_window.resizable(False,False)
+    # Set the title of the frame
+    trainer_view_window.title("View Trainers")
     # Create a frame for the search section and treeview
-    frame = ctk.CTkFrame(membership_view_window, width=800, height=400,fg_color="#333")
+    frame = ctk.CTkFrame(trainer_view_window, width=800, height=400,fg_color="#333")
     frame.place(relx=0.5, rely=0.45, anchor=CENTER)
     
     #--------------------------------------------#
@@ -29,7 +26,7 @@ def open_membership_view_window():
         search_entry.delete(0,END)
     def search():
         search_term = search_entry.get()
-        search_result = searchMembership(search_term)
+        search_result = searchTrainer(search_term)
         tree.delete(*tree.get_children())
         for row in search_result:
             tree.insert('', 'end', values=row)
@@ -54,7 +51,7 @@ def open_membership_view_window():
     tree_frame.grid(row=1, column=0, columnspan=3, padx=10, pady=10, sticky="nsew")
 
     # Create the Treeview
-    tree = ttk.Treeview(tree_frame, columns=("ID", "First Name", "Middle Name", "Last Name", "Age", "Gender", "Address", "Subscription"), show="headings")
+    tree = ttk.Treeview(tree_frame, columns=("ID", "First Name", "Middle Name", "Last Name", "Age", "Gender", "Address"), show="headings")
     tree.pack(side=LEFT, fill=BOTH, expand=True)
 
     # Define the column headings
@@ -65,7 +62,7 @@ def open_membership_view_window():
     tree.heading("Age", text="Age")
     tree.heading("Gender", text="Gender")
     tree.heading("Address", text="Address")
-    tree.heading("Subscription", text="Subscription")
+    
 
     # Define the column width
     tree.column("ID", width=50)
@@ -75,10 +72,9 @@ def open_membership_view_window():
     tree.column("Age", width=50)
     tree.column("Gender", width=100)
     tree.column("Address", width=100)
-    tree.column("Subscription", width=150)
 
     # Insert data
-    result = showMembership()
+    result = showTrainer()
     for i in result:
         tree.insert('', 'end', values=i)
 
@@ -93,22 +89,24 @@ def open_membership_view_window():
     frame.grid_columnconfigure(0, weight=1)
     frame.grid_columnconfigure(1, weight=0)
     frame.grid_columnconfigure(2, weight=0)
-    def membership_view_window_close():
+    def trainer_view_window_close():
         root.deiconify()
-        membership_view_window.destroy()
+        trainer_view_window.destroy()
     # Create the back button
-    back_button = ctk.CTkButton(frame, text="Back", font=("arial", 14), fg_color="red",hover_color="dark red", text_color="white", command=membership_view_window_close)
+    back_button = ctk.CTkButton(frame, text="Back", font=("arial", 14), fg_color="red", text_color="white",hover_color="dark red", command=trainer_view_window_close)
     back_button.grid(row=2, columnspan=3, pady=20)
-def open_membership_register_window():
+def open_trainer_register_window():
     root.withdraw()
-    # Open a new Toplevel window instead of re-importing
-    membership_register_window = ctk.CTkToplevel(root)
-    membership_register_window.geometry("850x600")
-    membership_register_window.title("Register Membership")
-    # Create the register frame and centering it
-    frame = ctk.CTkFrame(membership_register_window , corner_radius=10, bg_color="#555",width=500, height=400)
-    frame.place(relx=0.5, rely=0.5, anchor=CENTER)
-
+    # Initialize the main frame 
+    trainer_register_window = ctk.CTkToplevel(root)
+    # Set the size of the frame
+    trainer_register_window.geometry("850x600")
+    trainer_register_window.resizable(False,False)
+    # Set the title of the frame
+    trainer_register_window.title("View Trainers")
+    # Create a frame for the search section and treeview
+    frame = ctk.CTkFrame(trainer_register_window, width=800, height=400,fg_color="#333")
+    frame.place(relx=0.5, rely=0.45, anchor=CENTER)
     frame.grid_rowconfigure((0,1,2,3,4,5,6,7), weight=1)
     frame.grid_columnconfigure((0,1,2), weight=1)
     # Create the registration form 
@@ -159,24 +157,6 @@ def open_membership_register_window():
     Address_entry = ctk.CTkEntry(frame,font=ctk.CTkFont(family="arial",size=12),corner_radius=5,placeholder_text="Enter your address")
     Address_entry.grid(row=5,column=1,padx=20, pady=(20, 5))
     #---------------------Address---------------------
-
-    #---------------------Subscription Plan---------------------
-    Subscription_label = ctk.CTkLabel(frame, text="Subscription Type:", font=ctk.CTkFont(family="arial", size=18, weight="bold"), anchor='w')
-    Subscription_label.grid(row=6, column=0, padx=20, pady=(20, 5))
-
-    # Variable to hold the selected value
-    subscription_var = StringVar(value="")
-
-    # Radio buttons for subscription type
-
-    Monthly_radiobutton = ctk.CTkRadioButton(frame, text="Monthly", variable=subscription_var, value="Monthly", font=ctk.CTkFont(family="Arial", size=12))
-    Monthly_radiobutton.grid(row=6, column=1,pady=(20, 5), sticky="w")
-
-    Yearly_radiobutton = ctk.CTkRadioButton(frame, text="Yearly", variable=subscription_var, value="Yearly", font=ctk.CTkFont(family="Arial", size=12))
-    Yearly_radiobutton.grid(row=6, column=1, pady=(20, 5), sticky="e")
-
-    #---------------------Subscription Plan---------------------
-
     #---------------------Register---------------------
     def clear():
         FName_entry.delete(0,END)
@@ -185,8 +165,8 @@ def open_membership_register_window():
         Age_entry.delete(0,END)
         Address_entry.delete(0,END)
     exp = "^([0-9]+)$"
-    def add_membership():
-        if len(FName_entry.get()) == 0 or len(MName_entry.get()) == 0 or len(LName_entry.get()) == 0 or len(Age_entry.get()) == 0 or len(Address_entry.get()) == 0 or len(subscription_var.get()) == 0:
+    def add_trainer():
+        if len(FName_entry.get()) == 0 or len(MName_entry.get()) == 0 or len(LName_entry.get()) == 0 or len(Age_entry.get()) == 0 or len(Address_entry.get()) == 0 :
             messagebox.askretrycancel("Error in register" , "Pleas you must fill all the fields")
             return
         if len(FName_entry.get()) < 3 or len(MName_entry.get()) < 3 or len(LName_entry.get()) < 3 or len(Age_entry.get()) > 2 or len(Address_entry.get()) < 5:
@@ -195,18 +175,18 @@ def open_membership_register_window():
         if(re.search(exp, Age_entry.get()) == None):
             messagebox.askretrycancel("Error in age" , "Pleas Enter valid age")
             return
-        addMembership(FName_entry.get() , MName_entry.get() , LName_entry.get() , int(Age_entry.get()), Gender_combobox.get() ,Address_entry.get() , subscription_var.get())
+        addTrainer(FName_entry.get() , MName_entry.get() , LName_entry.get() , int(Age_entry.get()), Gender_combobox.get() ,Address_entry.get())
         clear()
         messagebox.showinfo("Register" , "Register successfully.")
-    Register_button = ctk.CTkButton(frame,text="Register",font=ctk.CTkFont(family="arial",size=18,weight="bold"),text_color="white",fg_color="green",hover_color="dark green", command=add_membership)
+    Register_button = ctk.CTkButton(frame,text="Register",font=ctk.CTkFont(family="arial",size=18,weight="bold"),text_color="white",fg_color="green",hover_color="dark green", command=add_trainer)
     Register_button.grid(row=8,column=0,padx=20, pady=(20, 5))
     #---------------------Register---------------------
 
     #---------------------Back---------------------
-    def back_membership():
-        membership_register_window.destroy()
+    def back_trainer():
+        trainer_register_window.destroy()
         root.deiconify()
-    Back_button = ctk.CTkButton(frame,text="Back",text_color="white",font=ctk.CTkFont(family="arial",size=18,weight="bold"),fg_color="red",hover_color="dark red", command=back_membership)
+    Back_button = ctk.CTkButton(frame,text="Back",text_color="white",font=ctk.CTkFont(family="arial",size=18,weight="bold"),fg_color="red",hover_color="dark red", command=back_trainer)
     Back_button.grid(row=8,column=1,padx=20, pady=(20, 5))
 # Create the root frame of the app
 root = ctk.CTk()
@@ -214,16 +194,17 @@ root.geometry("1000x600")
 root.resizable(False, False)
 root.title("Main Window")
 
+# create-button
 #create a frame for the buttons
 frame = ctk.CTkFrame(root,fg_color="#242424",width=500,height=500)
 frame.place(relx=0.5,rely=0.5,anchor=CENTER)
 
 regIcon = PhotoImage(file=f"{icon_PATH}\\edit.png")
-btn1 = Button(frame , text="Register Trainer", bg="#fff", padx=5 , pady=5 , image=regIcon, compound="top",font=("Rubik",15), justify=CENTER , width=150 , command=open_membership_register_window)
+btn1 = Button(frame , text="Register Trainer", bg="#fff", padx=5 , pady=5 , image=regIcon, compound="top",font=("Rubik",15), justify=CENTER , width=150 , command=open_trainer_register_window)
 btn1.grid(row=0,column=0,padx=20)
 
 viewIcon = PhotoImage(file=f"{icon_PATH}\search-file.png")
-btn2 = Button(frame , text="View Trainers", bg="#fff", padx=5 , pady=5 , image=viewIcon, compound="top",font=("Rubik",15), justify=CENTER , width=150, command=open_membership_view_window)
+btn2 = Button(frame , text="View Trainers", bg="#fff", padx=5 , pady=5 , image=viewIcon, compound="top",font=("Rubik",15), justify=CENTER , width=150, command=open_trainer_view_window)
 btn2.grid(row=0,column=1,padx=20)
 
 # root.config(bg='#393b39')

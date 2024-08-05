@@ -2,12 +2,12 @@ import sqlite3
 import os
 from tkinter import messagebox
 
-
+print(os.getcwd())
 PATH = r"{}\gym_db".format(os.getcwd())
 
 # login_database
 def showLoginData():
-    found = False # flag the indicate wheter we found username and password in the db
+    found = False # flag the indicate whether we found username and password in the db
     # open connection
     con = sqlite3.connect(f"{PATH}\\login.db")
     cur = con.cursor()
@@ -44,7 +44,7 @@ def addMembership(fname,mname,lname,age,gender,address,sub_plan):
                 """,(fname , mname , lname, age,gender,address,sub_plan))
     con.commit()
     con.close()
-# ================================================================== #
+
 def showMembership():
     # open connection
     con = sqlite3.connect(f"{PATH}\\membership.db")
@@ -55,3 +55,46 @@ def showMembership():
     con.commit()
     con.close()
     return result
+
+def searchMembership(search_item):
+    con = sqlite3.connect(f"{PATH}\\membership.db")
+    cur = con.cursor()
+    cur.execute("SELECT * FROM membership WHERE fname LIKE ?", (f"%{search_item}%",))
+    result = cur.fetchall()
+    con.close()
+    return result
+# ================================================================== #
+# Trainer Database
+def addTrainer(fname,mname,lname,age,gender,address):
+    # Open Connection
+    conn = sqlite3.connect(f"{PATH}\\trainer.db")
+    cur = conn.cursor()
+    # insert the data
+    cur.execute("""INSERT 
+                INTO 
+                trainer (fname , mname , lname , age , gender , address)
+                Values(?,?,?,?,?,?)
+                """,(fname , mname , lname, age,gender,address))
+    conn.commit()
+    conn.close()
+def showTrainer():
+    # Open Connection
+    conn = sqlite3.connect(f"{PATH}\\trainer.db")
+    cur = conn.cursor()
+    # get data
+    cur.execute("SELECT * from trainer")
+    result = cur.fetchall()
+    conn.commit()
+    conn.close()
+    return result
+
+def searchTrainer(search_item):
+    # Open Connection
+    con = sqlite3.connect(f"{PATH}\\trainer.db")
+    cur = con.cursor()
+    # Get Data
+    cur.execute("SELECT * FROM trainer WHERE fname LIKE ?", (f"%{search_item}%",))
+    result = cur.fetchall()
+    con.close()
+    return result
+# ================================================================== #

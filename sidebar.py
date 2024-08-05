@@ -1,54 +1,69 @@
-from tkinter import Tk,Label,Button,PhotoImage,Frame
+from tkinter import *
+from os import getcwd
 
-root=Tk()
+icon_PATH = r"{}\Assets".format(getcwd())
 
-root_frame = Frame(root)
-root_frame['bg']='#393b39'
+root = Tk()
+root.title("Navbar")
 
-px=0
-py=15
+root.resizable(False, False)
 
-someone_Gym=Label(root_frame,text='Pro-Fit-Gym',fg='#DC5F00',font=('RUbik',30),bg='#393b39')
-someone_Gym.grid(column=0,row=0,padx=px,pady=py)
 
-#--------------------home button------------------------
-home_icon=PhotoImage(file=r'D:\WorkSpace\Project Python\images\home.png')
-add_button=Button(root_frame,compound='left',text='Home',padx=30,font=('RUbik',20),fg='#EEEEEE',image=home_icon,relief='flat',bg='#393b39',activebackground='#292b29')
-add_button.grid(column=0,row=1,pady=py)
+# home
+home = PhotoImage(file=f"{icon_PATH}\\home.png")
+btn1 = Button(image=home , compound='bottom', bg="#387F39", activebackground="#387F39" , bd=0 , relief=SOLID)
+btn1.grid(row=0,column=0,padx=10, pady=10)
 
-#--------------------add member button-------------------
-add_member_icon=PhotoImage(file=r'D:\WorkSpace\Project Python\images\add-user.png')
-add_member=Button(root_frame,compound='left',text='Membership',padx=30,font=('RUbik',20),fg='#EEEEEE',image=add_member_icon,relief='flat',bg='#393b39',activebackground='#292b29')
-add_member.grid(column=0,row=2,pady=py)
+l1 = Label(text="Home", bg="#387F39", font=("Rubik", 10))
+l1.grid(row=0,column=1,padx=5)
 
-#--------------------gym equipment button-----------------
-gym_equipment_icon=PhotoImage(file=r'D:\WorkSpace\Project Python\images\gym.png')
-gym_equipment=Button(root_frame,compound='left',text='Gym equipment',padx=30,font=('RUbik',20),fg='#EEEEEE',image=gym_equipment_icon,relief='flat',bg='#393b39',activebackground='#292b29')
-gym_equipment.grid(column=0,row=3,pady=py)
+# membership
+membership = PhotoImage(file=f"{icon_PATH}\\membership-card.png")
+btn2 = Button(image=membership , compound='bottom', bg="#387F39", activebackground="#387F39" , bd=0 , relief=SOLID, justify=CENTER)
+btn2.grid(row=1,column=0,padx=10, pady=10)
 
-#--------------------trainer button-----------------------
-trainer_icon=PhotoImage(file=r'D:\WorkSpace\Project Python\images\trainer.png')
-trainer=Button(root_frame,compound='left',text='Trainer',padx=30,font=('RUbik',20),fg='#EEEEEE',image=trainer_icon,relief='flat',bg='#393b39',activebackground='#292b29')
-trainer.grid(column=0,row=4,pady=py)
+l2 = Label(text="Membership", bg="#387F39", font=("Rubik", 10))
+l2.grid(row=1,column=1,padx=5)
 
-#--------------------gymers button------------------------
-gymers_icon=PhotoImage(file=r'D:\WorkSpace\Project Python\images\membership.png')
-gymers=Button(root_frame,compound='left',text='Gymers',padx=30,font=('RUbik',20),fg='#EEEEEE',image=gymers_icon,relief='flat',bg='#393b39',activebackground='#292b29')
-gymers.grid(column=0,row=5,pady=py)
+# gym_equipment
+gym_equipment = PhotoImage(file=f"{icon_PATH}\\gym.png")
+btn3 = Button(image=gym_equipment , compound='bottom', bg="#387F39", activebackground="#387F39" , bd=0 , relief=SOLID, justify=CENTER)
+btn3.grid(row=2,column=0,padx=10, pady=10)
 
-#--------------------employees button---------------------
-employees_icon=PhotoImage(file=r'D:\WorkSpace\Project Python\images\employee.png')
-employees=Button(root_frame,compound='left',text='Employees',padx=30,font=('RUbik',20),fg='#EEEEEE',image=employees_icon,relief='flat',bg='#393b39',activebackground='#292b29')
-employees.grid(column=0,row=6,pady=py)
+l3 = Label(text="Gym Equipment", bg="#387F39", font=("Rubik", 10))
+l3.grid(row=2,column=1,padx=5)
 
-#--------------------create user account button------------
-user_acc_icon=PhotoImage(file=r'D:\WorkSpace\Project Python\images\add-user.png')
-user_acc=Button(root_frame,compound='left',text='Create User Account',padx=30,font=('RUbik',20),fg='#EEEEEE',image=user_acc_icon,relief='flat',bg='#393b39',activebackground='#292b29')
-user_acc.grid(column=0,row=7,pady=py)
+# trainer
+trainer = PhotoImage(file=f"{icon_PATH}\\trainer.png")
+btn4 = Button(image=trainer , compound='bottom', bg="#387F39", activebackground="#387F39" , bd=0 , relief=SOLID, justify=CENTER)
+btn4.grid(row=3,column=0,padx=10, pady=10)
 
-#--------------------logout button-------------------------
-logout=Button(root_frame,text='Logout',padx=30,font=('RUbik',20),fg='#EEEEEE',relief='flat',bg='red',activebackground='darkred')
-logout.grid(columnspan=2,row=8,pady=py)
+l4 = Label(text="trainer", bg="#387F39", font=("Rubik", 10))
+l4.grid(row=3,column=1,padx=5)
 
-root_frame.pack()
+# gymers
+gymers = PhotoImage(file=f"{icon_PATH}\\weightlifting.png")
+btn5 = Button(image=gymers , compound='bottom', bg="#387F39", activebackground="#387F39" , bd=0 , relief=SOLID, justify=CENTER)
+btn5.grid(row=4,column=0,padx=10, pady=10)
+
+l5 = Label(text="Gymers", bg="#387F39", font=("Rubik", 10))
+l5.grid(row=4,column=1,padx=5)
+
+# emp
+emp = PhotoImage(file=f"{icon_PATH}\\employee.png")
+btn6 = Button(image=emp , compound='bottom', bg="#387F39", activebackground="#387F39" , bd=0 , relief=SOLID, justify=CENTER)
+btn6.grid(row=5,column=0,padx=10, pady=10)
+
+l5 = Label(text="Employee", bg="#387F39", font=("Rubik", 10))
+l5.grid(row=5,column=1,padx=5)
+
+# create_user_account
+create_user = PhotoImage(file=f"{icon_PATH}\\add-user.png")
+btn7 = Button(image=create_user , compound='bottom', bg="#387F39", activebackground="#387F39" , bd=0 , relief=SOLID, justify=CENTER)
+btn7.grid(row=6,column=0,padx=10, pady=10)
+
+l6 = Label(text="Create User Account", bg="#387F39", font=("Rubik", 10))
+l6.grid(row=6,column=1,padx=5)
+
+root.config(bg="#387F39")
 root.mainloop()
