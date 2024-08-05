@@ -103,7 +103,7 @@ def addEquipment(equipment_name, brand, model, serial_no, quantity, condition, t
     conn = sqlite3.connect(f'{PATH}\\equipment.db')
     cursor = conn.cursor()
     cursor.execute('''
-    INSERT INTO equipment (equipment_name, brand, model, serial_no, quantity, condition, type, status, location, training_required)
+    INSERT INTO equipment (id,equipment_name, brand, model, serial_no, quantity, condition, type, status, location, training_required)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ''', (equipment_name, brand, model, serial_no, quantity, condition, type, status, location, training_required))
 
@@ -114,8 +114,15 @@ def addEquipment(equipment_name, brand, model, serial_no, quantity, condition, t
 def showEquipment():
     conn = sqlite3.connect(f'{PATH}\\equipment.db')
     cursor = conn.cursor()
-    cursor.execute('SELECT equipment_name, quantity, type, status, training_required FROM equipment')
+    cursor.execute('SELECT * FROM equipment')
     rows = cursor.fetchall()
     conn.close()
-
     return rows
+# Search Equipment
+def searchEquipment(search_item):
+    conn = sqlite3.connect(f'{PATH}\\equipment.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM equipment WHERE equipment_name LIKE ?", (f"%{search_item}%",))
+    result = cursor.fetchall()
+    conn.close()
+    return result
