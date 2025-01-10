@@ -63,6 +63,31 @@ def searchMembership(search_item):
     result = cur.fetchall()
     con.close()
     return result
+def deleteMembership(id):
+    con = sqlite3.connect(f"{PATH}\\membership.db")
+    cur = con.cursor()
+    cur.execute(f"DELETE FROM membership WHERE id = ?",(id,))
+    con.commit()
+    con.close()
+    
+def updateMembership(id,fname,mname,lname,age,address,sub_plan):
+    con = sqlite3.connect(f"{PATH}\\membership.db")
+    cur = con.cursor()
+    cur.execute("""
+                UPDATE
+                membership
+                SET
+                fname = ?,
+                mname = ?,
+                lname = ?,
+                age = ?,
+                address = ?,
+                subscribe_plan = ?
+                WHERE id = ?
+                """,(fname,mname,lname,age,address,sub_plan,id))
+    con.commit()
+    con.close()
+    
 # ================================================================== #
 # Trainer Database
 def addTrainer(fname,mname,lname,age,gender,address):
@@ -77,6 +102,7 @@ def addTrainer(fname,mname,lname,age,gender,address):
                 """,(fname , mname , lname, age,gender,address))
     conn.commit()
     conn.close()
+    
 def showTrainer():
     # Open Connection
     conn = sqlite3.connect(f"{PATH}\\trainer.db")
@@ -97,13 +123,38 @@ def searchTrainer(search_item):
     result = cur.fetchall()
     con.close()
     return result
-# ================================================================== #
+
+def deleteTrainer(id):
+    con = sqlite3.connect(f"{PATH}\\trainer.db")
+    cur = con.cursor()
+    cur.execute(f"DELETE FROM trainer WHERE id = ?",(id,))
+    con.commit()
+    con.close()
+    
+def updateTrainer(id,fname,mname,lname,age,address):
+    con = sqlite3.connect(f"{PATH}\\trainer.db")
+    cur = con.cursor()
+    cur.execute("""
+                UPDATE
+                trainer
+                SET
+                fname = ?,
+                mname = ?,
+                lname = ?,
+                age = ?,
+                address = ?
+                WHERE id = ?
+                """,(fname,mname,lname,age,address,id))
+    con.commit()
+    con.close()
+# ================================================================== #
+#Equipment Database
 # add equipment
 def addEquipment(equipment_name, brand, model, serial_no, quantity, condition, type, status, location, training_required):
     conn = sqlite3.connect(f'{PATH}\\equipment.db')
     cursor = conn.cursor()
     cursor.execute('''
-    INSERT INTO equipment (id,equipment_name, brand, model, serial_no, quantity, condition, type, status, location, training_required)
+    INSERT INTO equipment (equipment_name, brand, model, serial_no, quantity, condition, type, status, location, training_required)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ''', (equipment_name, brand, model, serial_no, quantity, condition, type, status, location, training_required))
 
@@ -126,3 +177,91 @@ def searchEquipment(search_item):
     result = cursor.fetchall()
     conn.close()
     return result
+# Update equipment
+def updateEquipment(id,equipment_name, brand, model, serial_no, quantity, condition, type,status, location, training_required):
+    con = sqlite3.connect(f"{PATH}\\equipment.db")
+    cur = con.cursor()
+    cur.execute("""
+                UPDATE
+                equipment
+                SET
+                equipment_name = ?,
+                brand = ?,
+                model = ?,
+                serial_no = ?,
+                quantity = ?,
+                condition = ?,
+                type = ?,
+                status = ?,
+                location = ?,
+                training_required = ?
+                WHERE id = ?
+                """, (equipment_name, brand, model, serial_no, quantity, condition, type,status, location, training_required, id))
+    con.commit()
+    con.close()
+# Delete equipment
+def deleteEquipment(id):
+    conn = sqlite3.connect(f'{PATH}\\equipment.db')
+    cursor = conn.cursor()
+    cursor.execute('DELETE FROM equipment WHERE id = ?', (id,))
+    conn.commit()
+    conn.close()
+#---------------------------------------------------------#
+#Employees Database
+def addEmployee(fname,mname,lname,age,gender,address):
+    # Open Connection
+    conn = sqlite3.connect(f"{PATH}\\employees.db")
+    cur = conn.cursor()
+    # insert the data
+    cur.execute("""INSERT 
+                INTO 
+                employees (fname , mname , lname , age , gender , address)
+                Values(?,?,?,?,?,?)
+                """,(fname , mname , lname, age,gender,address))
+    conn.commit()
+    conn.close()
+    
+
+def showEmployees():
+    conn = sqlite3.connect(f'{PATH}\\employees.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM employees')
+    rows = cursor.fetchall()
+    conn.close()
+
+    return rows
+
+def updateEmployees(id,fname,mname,lname,age,address):
+    con = sqlite3.connect(f"{PATH}\\employees.db")
+    cur = con.cursor()
+    cur.execute("""
+                UPDATE
+                employees
+                SET
+                fname = ?,
+                mname = ?,
+                lname = ?,
+                age = ?,
+                address = ?
+                WHERE id = ?
+                """,(fname,mname,lname,age,address,id))
+    con.commit()
+    con.close()
+
+def searchEmployee(search_item):
+    # Open Connection
+    con = sqlite3.connect(f"{PATH}\\employees.db")
+    cur = con.cursor()
+    # Get Data
+    cur.execute("SELECT * FROM employees WHERE fname LIKE ?", (f"%{search_item}%",))
+    result = cur.fetchall()
+    con.close()
+    return result
+
+def deleteEmployees(id):
+    con = sqlite3.connect(f"{PATH}\\employees.db")
+    cur = con.cursor()
+    cur.execute(f"DELETE FROM employees WHERE id = ?",(id,))
+    con.commit()
+    con.close()
+#---------------------------------------------------------#

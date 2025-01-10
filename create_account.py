@@ -41,7 +41,7 @@ root = Tk()
 root.geometry("850x600")
 root.resizable(False,False)
 # Set the title
-root.title("Register Membership")
+root.title("Create User Account")
 # Create the register frame and centering it
 frame = ctk.CTkFrame(root, corner_radius=10, bg_color="#555",width=500, height=400)
 frame.place(relx=0.5, rely=0.5, anchor=CENTER)
